@@ -1,11 +1,23 @@
 package interfaz;
 
+import java.util.ArrayList;
+
+import pantalla.Pantalla;
+import processing.core.PApplet;
+import space.Personaje;
+
 public class Logica {
 
+	private PApplet app;
+	private ArrayList<Personaje> juagdores;
+	private ArrayList<Personaje> enemigos;
+	private Pantalla pantalla;
 	
-	
-	public Logica(Main main) {
-		// TODO Auto-generated constructor stub
+	public Logica() {
+		this.app = Main.app;
+		this.juagdores = new ArrayList<>();
+		this.enemigos = new ArrayList<>();
+		
 	}
 	
 	public void draw() {

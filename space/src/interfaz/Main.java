@@ -5,7 +5,7 @@ import processing.event.KeyEvent;
 
 public class Main extends PApplet{
 	
-	static PApplet app;
+	public static PApplet app;
 	static Logica log;
 
 	public static void main(String[] args) {
@@ -22,7 +22,7 @@ public class Main extends PApplet{
 	@Override
 	public void setup() {
 		app = this;
-		log = new Logica(this);
+		log = new Logica();
 		
 	}
 	

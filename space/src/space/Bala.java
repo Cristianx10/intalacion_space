@@ -2,11 +2,10 @@ package space;
 
 import processing.core.PVector;
 
-public class Nave extends Personaje{
+public class Bala extends Personaje{
 
-	public Nave(PVector pos) {
+	public Bala(PVector pos) {
 		super(pos);
-		
 	}
 
 	@Override

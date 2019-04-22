@@ -15,8 +15,8 @@ public abstract class Personaje {
 	public Personaje(PVector pos) {
 		this.app = Main.app;
 		this.pos = pos;
-		this.width = 100;
-		this.height = 100;
+		this.width = 25;
+		this.height = 25;
 	}
 	
 	public void pintar() {
@@ -33,6 +33,14 @@ public abstract class Personaje {
 			sobre = true;
 		}
 		return sobre;
+	}
+	
+	public float getX() {
+		return pos.x;
+	}
+	
+	public float getY() {
+		return pos.y;
 	}
 	
 }

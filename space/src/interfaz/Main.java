@@ -23,11 +23,13 @@ public class Main extends PApplet{
 	public void setup() {
 		app = this;
 		log = new Logica();
+		log.start();
 		
 	}
 	
 	@Override
 	public void draw() {
+		background(0);
 		log.draw();
 	}
 	

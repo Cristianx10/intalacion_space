@@ -25,9 +25,7 @@ public class Logica extends Thread {
 		int r = (int) app.random(1,4);
 		this.enemigos = new ArrayList<>();
 		personaje = new Nave(new PVector(app.width / 2, app.height - 100), r);
-		System.out.println(r);
 		Enemigo.r = r;
-		System.out.println(Enemigo.r);
 		new Thread((Nave) personaje).start();
 		
 		pantalla = 6;
@@ -48,7 +46,14 @@ public class Logica extends Thread {
 
 		}
 		
-		
+		for (int i = 0; i < 6; i++) {
+			for (int j = 0; j < 3; j++) {
+					Enemigo temp = new Enemigo(new PVector(170*(i+1), 50 - (120*(j))), ((Nave) personaje).balas);
+					enemigos.add(temp);
+					temp.start();
+					contador = 0;
+			}
+		}
 		mapY = app.height;
 		mapY = mapY-(stage.height/2);
 	}
@@ -81,6 +86,13 @@ public class Logica extends Thread {
 		if (map2Y >= stage.height) {
 			map2Y = mapY-(stage.height/2);
 		}
+		for (int i = 0; i < enemigos.size(); i++) {
+				
+			if (enemigos.get(i).getY() > app.height-100) {
+				isPlay = false;
+				pantalla = 7;
+			}
+		}
 	}
 
 	@Override
@@ -90,13 +102,6 @@ public class Logica extends Thread {
 			// TODO Auto-generated method stub
 			try {
 				sleep(21);
-				contador ++;
-				if (contador == 100) {
-					Enemigo temp = new Enemigo(new PVector(app.random(200,1100), -200), ((Nave) personaje).balas);
-					enemigos.add(temp);
-					temp.start();
-					contador = 0;
-				}
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

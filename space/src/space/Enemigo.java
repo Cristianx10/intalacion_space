@@ -24,7 +24,7 @@ public class Enemigo extends Thread {
 		this.pos = pos;
 		this.width = 25;
 		this.height = 25;
-		this.vel = 2;
+		this.vel = 4;
 		isAlive = true;
 		
 		switch (r) {
@@ -33,11 +33,9 @@ public class Enemigo extends Thread {
 			switch (c) {
 			case 1:
 				enemigo = app.loadImage("Corazon1.png");
-				vel = 4;
 				break;
 			case 2:
 				enemigo = app.loadImage("Corazon2.png");
-				vel = 7;
 				break;
 
 			}
@@ -47,15 +45,12 @@ public class Enemigo extends Thread {
 			switch (c) {
 			case 1:
 			enemigo = app.loadImage("Gatito1.png");
-			vel = 4;
 			break;
 			case 2:
 				enemigo = app.loadImage("Gatito2.png");
-				vel = 4;
 				break;
 			case 3:
 				enemigo = app.loadImage("Gatito3.png");
-				vel = 7;
 				break;
 			}
 
@@ -66,11 +61,9 @@ public class Enemigo extends Thread {
 			switch (c) {
 			case 1:
 			enemigo = app.loadImage("Ladron1.png");
-			vel = 4;
 			break;
 			case 2:
 				enemigo = app.loadImage("Ladron2.png");
-				vel = 7;
 				break;
 			}
 			
@@ -87,7 +80,12 @@ public class Enemigo extends Thread {
 	}
 	
 	public void update(){
-		pos.y += vel;		
+		pos.x += vel;
+		
+		if (pos.x < 50 || pos.x > app.width-50) {
+			vel *= -1;
+			pos.y += 150;
+		}
 	}
 	
 	public void collision() {

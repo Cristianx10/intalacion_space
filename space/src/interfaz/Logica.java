@@ -2,90 +2,122 @@ package interfaz;
 
 import java.util.ArrayList;
 
-import pantalla.Pantalla;
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PVector;
 import space.Enemigo;
 import space.Nave;
 import space.Personaje;
 
-public class Logica extends Thread{
+public class Logica extends Thread {
 
 	private PApplet app;
-	private ArrayList<Personaje> juagdores;
 	private Personaje personaje;
 	private ArrayList<Enemigo> enemigos;
-	private Pantalla pantalla;
+	private int pantalla, mapY, map2Y;
+	private PImage stage;
+	int contador;
 	public boolean isPlay = true;
-	
+
 	public Logica() {
 		this.app = Main.app;
-		this.juagdores = new ArrayList<>();
+		app.imageMode(app.CENTER);
+		int r = (int) app.random(1,4);
 		this.enemigos = new ArrayList<>();
-		personaje = new Nave(new PVector(app.width/2,app.height-100));
-		int indiceY = 1;
-		for (int j = 0; j < 4; j++) {
-		for (int i = 0; i < 8; i++) {
-			Enemigo temp = new Enemigo(new PVector(app.width/12*(i+1),50*j),((Nave) personaje).balas);
-			enemigos.add(temp);
-			temp.start();
-		}
-		}
-		new Thread((Nave)personaje).start();
+		personaje = new Nave(new PVector(app.width / 2, app.height - 100), r);
+		System.out.println(r);
+		Enemigo.r = r;
+		System.out.println(Enemigo.r);
+		new Thread((Nave) personaje).start();
 		
-	}
+		pantalla = 6;
 	
-	public void draw() {
-		personaje.draw();
-		for (int i = 0; i < enemigos.size(); i++) {
-			enemigos.get(i).draw();
+		
+		
+		switch (r) {
+		case 1:
+			stage = app.loadImage("Amor.png");
+			break;
+		case 2:
+			stage = app.loadImage("Hogar.png");
+			break;
+			
+		case 3:
+			stage = app.loadImage("Heroes.png");
+			break;
+
 		}
+		
+		
+		mapY = app.height;
+		mapY = mapY-(stage.height/2);
 	}
-	
-	public void update() {
-		if (enemigos.get(0).getX() < 30 || enemigos.get(enemigos.size()-1).getX() > app.width-30) {
-			Enemigo.vel *= -1;
+
+	public void draw() {
+		if (pantalla == 6) {
+			app.image(stage, app.width/2, mapY-stage.height+10);
+			app.image(stage, app.width/2, mapY);
+			personaje.draw();
 			for (int i = 0; i < enemigos.size(); i++) {
-				enemigos.get(i).setY(enemigos.get(i).getY()+50);
+				enemigos.get(i).draw();
 			}
 		}
-		
+	}
+
+	public void update() {
+
 		for (int i = 0; i < enemigos.size(); i++) {
 			if (!enemigos.get(i).isAlive()) {
 				enemigos.remove(i);
 				return;
 			}
 		}
+		
+		mapY+= 5;
+		map2Y+= 5;
+		if (mapY >= stage.height) {
+			mapY = map2Y-(stage.height/2);
+		}
+		if (map2Y >= stage.height) {
+			map2Y = mapY-(stage.height/2);
+		}
 	}
-	
+
 	@Override
 	public void run() {
-		while(isPlay) {
-		update();
-		// TODO Auto-generated method stub
-		try {
-			sleep(21);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		while (isPlay) {
+			update();
+			// TODO Auto-generated method stub
+			try {
+				sleep(21);
+				contador ++;
+				if (contador == 100) {
+					Enemigo temp = new Enemigo(new PVector(app.random(200,1100), -200), ((Nave) personaje).balas);
+					enemigos.add(temp);
+					temp.start();
+					contador = 0;
+				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public void mousePressed() {
-		
+
 	}
-	
+
 	public void mouseReleased() {
-		
+
 	}
-	
+
 	public void keyPressed() {
 		((Nave) personaje).keyboardPressed();
 	}
-	
+
 	public void keyReleased() {
 		((Nave) personaje).keyboardReleased();
 	}
-	
+
 }

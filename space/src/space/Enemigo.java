@@ -4,16 +4,20 @@ import java.util.ArrayList;
 
 import interfaz.Main;
 import processing.core.PApplet;
+import processing.core.PImage;
 import processing.core.PVector;
 
 public class Enemigo extends Thread {
 	private PApplet app;
 	private PVector pos;
-	public static int vel;
+	public int vel;
 	private int width;
 	private int height;
+	private int c;
+	public static int r;
 	private boolean isAlive;
 	private ArrayList<Bala> balas;	
+	private PImage enemigo;
 	public Enemigo(PVector pos, ArrayList<Bala> balas) {
 		this.balas = balas;
 		this.app = Main.app;
@@ -22,21 +26,73 @@ public class Enemigo extends Thread {
 		this.height = 25;
 		this.vel = 2;
 		isAlive = true;
+		
+		switch (r) {
+		case 1:
+			c = (int) app.random(1,3);
+			switch (c) {
+			case 1:
+				enemigo = app.loadImage("Corazon1.png");
+				vel = 4;
+				break;
+			case 2:
+				enemigo = app.loadImage("Corazon2.png");
+				vel = 7;
+				break;
+
+			}
+			break;
+		case 2:
+			c = (int) app.random(1,4);
+			switch (c) {
+			case 1:
+			enemigo = app.loadImage("Gatito1.png");
+			vel = 4;
+			break;
+			case 2:
+				enemigo = app.loadImage("Gatito2.png");
+				vel = 4;
+				break;
+			case 3:
+				enemigo = app.loadImage("Gatito3.png");
+				vel = 7;
+				break;
+			}
+
+			break;
+			
+		case 3:
+			c = (int) app.random(1,3);
+			switch (c) {
+			case 1:
+			enemigo = app.loadImage("Ladron1.png");
+			vel = 4;
+			break;
+			case 2:
+				enemigo = app.loadImage("Ladron2.png");
+				vel = 7;
+				break;
+			}
+			
+			break;
+
+		}
+	
 	}
 
 	public void draw() {
 		// TODO Auto-generated method stub
 		app.fill(255,0,0);
-		app.ellipse(pos.x, pos.y, width, height);
+		app.image(enemigo, pos.x, pos.y);
 	}
 	
 	public void update(){
-		pos.x += vel;		
+		pos.y += vel;		
 	}
 	
 	public void collision() {
 		for (int i = 0; i < balas.size(); i++) {
-			if (app.dist(pos.x, pos.y, balas.get(i).getX(), balas.get(i).getY())< width) {
+			if (app.dist(pos.x, pos.y, balas.get(i).getX(), balas.get(i).getY())< enemigo.width/2) {
 				isAlive = false;
 				balas.remove(i);
 				return;

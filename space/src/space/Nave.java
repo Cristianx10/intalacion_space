@@ -2,20 +2,39 @@ package space;
 
 import java.util.ArrayList;
 
+import processing.core.PImage;
 import processing.core.PVector;
 
 public class Nave extends Personaje implements Runnable {
 
 	private boolean isMovingLeft, isMovingRight, isAlive;
-	private int vel = 3;
+	private int vel = 6;
 	public static ArrayList<Bala> balas;
+	private PImage player;
 
-	public Nave(PVector pos) {
-		super(pos);
+	public Nave(PVector pos, int r) {
+		super(pos,r);
 		isMovingLeft = false;
 		isMovingRight = false;
 		isAlive = true;
 		balas = new ArrayList<Bala>();
+		
+		switch (r) {
+		case 1:
+			player = app.loadImage("arco.png");
+			Bala.proyectil = app.loadImage("Flecha.png");
+			break;
+		case 2:
+			player = app.loadImage("Jugador.png");
+			Bala.proyectil = app.loadImage("PCorazon.png");
+			break;
+			
+		case 3:
+			player = app.loadImage("Batman.png");
+			Bala.proyectil = app.loadImage("Bala.png");
+			break;
+
+		}
 	}
 
 	@Override
@@ -25,7 +44,7 @@ public class Nave extends Personaje implements Runnable {
 			balas.get(i).draw();
 		}
 		app.fill(255, 0, 255, 80);
-		app.triangle(pos.x - width, pos.y + height, pos.x + width, pos.y + height, pos.x, pos.y - height);
+		app.image(player, pos.x, pos.y);
 	}
 
 	public void keyboardPressed() {
@@ -43,7 +62,7 @@ public class Nave extends Personaje implements Runnable {
 			isMovingLeft = false;
 		}
 		if (app.key == ' ') {
-			balas.add(new Bala(new PVector(pos.x, pos.y)));
+			balas.add(new Bala(new PVector(pos.x, pos.y),r));
 		}
 	}
 

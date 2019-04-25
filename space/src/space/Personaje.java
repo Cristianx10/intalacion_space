@@ -10,13 +10,15 @@ public abstract class Personaje {
 	protected PVector pos;
 	protected int width;
 	protected int height;
+	protected int r;
 	
 	
-	public Personaje(PVector pos) {
+	public Personaje(PVector pos, int r) {
 		this.app = Main.app;
 		this.pos = pos;
 		this.width = 25;
 		this.height = 25;
+		this.r = r;
 	}
 	
 	public void pintar() {

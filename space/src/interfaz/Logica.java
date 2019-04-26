@@ -24,16 +24,16 @@ public class Logica extends Thread {
 	public Logica() {
 		this.app = Main.app;
 		app.imageMode(app.CENTER);
-		int r = (int) app.random(1,4);
 		this.enemigos = new ArrayList<>();
-		personaje = new Nave(new PVector(app.width / 2, app.height - 100), r);
-		Enemigo.r = r;
+	
 		new Thread((Nave) personaje).start();
 		this.img = new Img();
 		
 		pantalla = 6;
 	
-		
+		int r = (int) app.random(1,4);
+		personaje = new Nave(new PVector(app.width / 2, app.height - 100), r);
+		Enemigo.r = r;
 		
 		switch (r) {
 		case 1:
@@ -46,8 +46,8 @@ public class Logica extends Thread {
 		case 3:
 			stage = Img.loadImage("Heroes.png");
 			break;
-
 		}
+		
 		
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -83,14 +83,16 @@ public class Logica extends Thread {
 		
 		mapY+= 5;
 		map2Y+= 5;
+		
 		if (mapY >= stage.height) {
 			mapY = map2Y-(stage.height/2);
 		}
+		
 		if (map2Y >= stage.height) {
 			map2Y = mapY-(stage.height/2);
 		}
+		
 		for (int i = 0; i < enemigos.size(); i++) {
-				
 			if (enemigos.get(i).getY() > app.height-100) {
 				isPlay = false;
 				pantalla = 7;
@@ -102,11 +104,11 @@ public class Logica extends Thread {
 	public void run() {
 		while (isPlay) {
 			update();
-			// TODO Auto-generated method stub
+
 			try {
 				sleep(21);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+	
 				e.printStackTrace();
 			}
 		}

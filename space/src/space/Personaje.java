@@ -25,7 +25,9 @@ public abstract class Personaje {
 		this.width = 25;
 		this.height = 25;
 		this.isAlive = true;
+		this.velocidad =0;
 	}
+	
 	
 	public void pintar() {
 		this.draw();
@@ -45,11 +47,11 @@ public abstract class Personaje {
 	}
 	
 	public float getX() {
-		return pos.x;
+		return this.pos.x;
 	}
 	
 	public float getY() {
-		return pos.y;
+		return this.pos.y;
 	}
 	
 }

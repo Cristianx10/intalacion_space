@@ -12,6 +12,7 @@ public class Bala extends Personaje {
 		super(pos);
 		this.contacto = false;
 		this.velocidad = 8;
+		
 	}
 
 	@Override

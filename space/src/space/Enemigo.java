@@ -10,9 +10,7 @@ import processing.core.PImage;
 import processing.core.PVector;
 
 public class Enemigo extends Personaje implements Runnable {
-	private PApplet app;
-	private PVector pos;
-
+	
 	private int c;
 	public static int r;
 	private ArrayList<Bala> balas;
@@ -27,6 +25,7 @@ public class Enemigo extends Personaje implements Runnable {
 		this.width = 100;
 		this.height = 100;
 		this.velocidad = 4;
+		
 
 		switch (r) {
 		case 1:
@@ -104,13 +103,6 @@ public class Enemigo extends Personaje implements Runnable {
 		}
 	}
 
-	public float getX() {
-		return pos.x;
-	}
-
-	public float getY() {
-		return pos.y;
-	}
 
 	public void setY(float y) {
 		this.pos.y = y;

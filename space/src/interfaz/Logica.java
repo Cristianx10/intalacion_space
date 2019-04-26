@@ -59,7 +59,7 @@ public class Logica extends Thread {
 	}
 	
 	public void mouseDragged() {
-		
+		this.pantalla.mouseMouseDraged();
 	}
 
 	public void keyReleased() {

@@ -9,11 +9,12 @@ public class Nave extends Personaje implements Runnable {
 
 	private boolean isMovingLeft, isMovingRight, isAlive;
 	private int vel = 6;
-	public static ArrayList<Bala> balas;
+	public ArrayList<Bala> balas;
 	private PImage player;
+	
 
 	public Nave(PVector pos, int r) {
-		super(pos,r);
+		super(pos);
 		isMovingLeft = false;
 		isMovingRight = false;
 		isAlive = true;
@@ -62,7 +63,7 @@ public class Nave extends Personaje implements Runnable {
 			isMovingLeft = false;
 		}
 		if (app.key == ' ') {
-			balas.add(new Bala(new PVector(pos.x, pos.y),r));
+			balas.add(new Bala(new PVector(pos.x, pos.y), this));
 		}
 	}
 
@@ -73,25 +74,25 @@ public class Nave extends Personaje implements Runnable {
 			pos.x += vel;
 		}
 		
-		for (int i = 0; i < balas.size(); i++) {
-			if (balas.get(i).getY() < -50) {
-				balas.remove(i);
+		for (int i = 0; i < this.balas.size(); i++) {
+			Bala b = this.balas.get(i);
+			if(b.getContacto()) {
+				balas.remove(b);
 			}
 		}
+		
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		while (isAlive) {
 			update();
 			for (int i = 0; i < balas.size(); i++) {
 				balas.get(i).update();
 			}
 			try {
-				Thread.sleep(16);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

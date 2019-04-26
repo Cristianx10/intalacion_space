@@ -72,7 +72,6 @@ public class Pantalla implements IPantalla {
 	public void mouseReleased() {
 		if (pantallas.size() > 0 && nPantalla < pantallas.size() && nPantalla > -1 && pantallas.size() > 0) {
 			CPantalla p = pantallas.get(nPantalla);
-
 			if (popUps.size() > 0) {
 
 			} else {
@@ -82,7 +81,6 @@ public class Pantalla implements IPantalla {
 
 		if (popUps.size() > 0 && nPopUp < popUps.size() && nPopUp > -1 && popUps.size() > 0) {
 			CPantalla p = popUps.get(nPopUp);
-
 			mouseReleasedAll(p);
 		}
 

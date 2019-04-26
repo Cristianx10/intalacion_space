@@ -2,6 +2,7 @@ package interfaz;
 
 import java.util.ArrayList;
 
+import pantalla.Img;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -15,6 +16,7 @@ public class Logica extends Thread {
 	private Personaje personaje;
 	private ArrayList<Enemigo> enemigos;
 	private int pantalla, mapY, map2Y;
+	public static Img img;
 	private PImage stage;
 	int contador;
 	public boolean isPlay = true;
@@ -27,6 +29,7 @@ public class Logica extends Thread {
 		personaje = new Nave(new PVector(app.width / 2, app.height - 100), r);
 		Enemigo.r = r;
 		new Thread((Nave) personaje).start();
+		this.img = new Img();
 		
 		pantalla = 6;
 	
@@ -34,21 +37,21 @@ public class Logica extends Thread {
 		
 		switch (r) {
 		case 1:
-			stage = app.loadImage("Amor.png");
+			stage = Img.loadImage("Amor.png");
 			break;
 		case 2:
-			stage = app.loadImage("Hogar.png");
+			stage = Img.loadImage("Hogar.png");
 			break;
 			
 		case 3:
-			stage = app.loadImage("Heroes.png");
+			stage = Img.loadImage("Heroes.png");
 			break;
 
 		}
 		
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 3; j++) {
-					Enemigo temp = new Enemigo(new PVector(170*(i+1), 50 - (120*(j))), ((Nave) personaje).balas);
+					Enemigo temp = new Enemigo(new PVector(170*(i+1), 50 - (120*(j))));
 					enemigos.add(temp);
 					temp.start();
 					contador = 0;
@@ -72,7 +75,7 @@ public class Logica extends Thread {
 	public void update() {
 
 		for (int i = 0; i < enemigos.size(); i++) {
-			if (!enemigos.get(i).isAlive()) {
+			if (!enemigos.get(i).isIsalive()) {
 				enemigos.remove(i);
 				return;
 			}
@@ -123,6 +126,10 @@ public class Logica extends Thread {
 
 	public void keyReleased() {
 		((Nave) personaje).keyboardReleased();
+	}
+	
+	public ArrayList<Enemigo> getEnemigos() {
+		return this.enemigos;
 	}
 
 }

@@ -7,7 +7,7 @@ import processing.event.KeyEvent;
 public class Main extends PApplet{
 	
 	public static PApplet app;
-	static Logica log;
+	public static Logica log;
 
 	public static void main(String[] args) {
 		PApplet.main("interfaz.Main");

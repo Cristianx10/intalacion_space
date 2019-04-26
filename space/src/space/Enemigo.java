@@ -3,130 +3,125 @@ package space;
 import java.util.ArrayList;
 
 import interfaz.Main;
+import pantalla.Img;
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PVector;
 
-public class Enemigo extends Thread {
+public class Enemigo extends Personaje implements Runnable {
 	private PApplet app;
 	private PVector pos;
-	public int vel;
-	private int width;
-	private int height;
+
 	private int c;
 	public static int r;
-	private boolean isAlive;
-	private ArrayList<Bala> balas;	
+	private ArrayList<Bala> balas;
 	private PImage enemigo;
-	public Enemigo(PVector pos, ArrayList<Bala> balas) {
-		this.balas = balas;
+
+	private Thread hilo;
+
+	public Enemigo(PVector pos) {
+		super(pos);
 		this.app = Main.app;
-		this.pos = pos;
-		this.width = 25;
-		this.height = 25;
-		this.vel = 4;
-		isAlive = true;
-		
+		this.hilo = new Thread(this);
+		this.width = 100;
+		this.height = 100;
+		this.velocidad = 4;
+
 		switch (r) {
 		case 1:
-			c = (int) app.random(1,3);
+			c = (int) app.random(1, 3);
 			switch (c) {
 			case 1:
-				enemigo = app.loadImage("Corazon1.png");
+				enemigo = Img.loadImage("Corazon1.png");
 				break;
 			case 2:
-				enemigo = app.loadImage("Corazon2.png");
+				enemigo = Img.loadImage("Corazon2.png");
 				break;
-
 			}
 			break;
 		case 2:
-			c = (int) app.random(1,4);
+			c = (int) app.random(1, 4);
 			switch (c) {
 			case 1:
-			enemigo = app.loadImage("Gatito1.png");
-			break;
+				this.enemigo = Img.loadImage("Gatito1.png");
+				break;
 			case 2:
-				enemigo = app.loadImage("Gatito2.png");
+				this.enemigo = Img.loadImage("Gatito2.png");
 				break;
 			case 3:
-				enemigo = app.loadImage("Gatito3.png");
+				this.enemigo = Img.loadImage("Gatito3.png");
 				break;
 			}
 
 			break;
-			
+
 		case 3:
-			c = (int) app.random(1,3);
+			c = (int) app.random(1, 3);
 			switch (c) {
 			case 1:
-			enemigo = app.loadImage("Ladron1.png");
-			break;
+				this.enemigo = Img.loadImage("Ladron1.png");
+				break;
 			case 2:
-				enemigo = app.loadImage("Ladron2.png");
+				this.enemigo = Img.loadImage("Ladron2.png");
 				break;
 			}
-			
+
 			break;
 
 		}
-	
+
 	}
 
 	public void draw() {
-		// TODO Auto-generated method stub
-		app.fill(255,0,0);
-		app.image(enemigo, pos.x, pos.y);
+		this.app.fill(255, 0, 0);
+		this.app.imageMode(PConstants.CENTER);
+		this.app.image(enemigo, pos.x, pos.y);
 	}
-	
-	public void update(){
-		pos.x += vel;
-		
-		if (pos.x < 50 || pos.x > app.width-50) {
-			vel *= -1;
-			pos.y += 150;
+
+	public void update() {
+		this.pos.x += this.velocidad;
+
+		if (this.pos.x < 50 || this.pos.x > this.app.width - 50) {
+			this.velocidad *= -1;
+			this.pos.y += 150;
 		}
 	}
-	
-	public void collision() {
-		for (int i = 0; i < balas.size(); i++) {
-			if (app.dist(pos.x, pos.y, balas.get(i).getX(), balas.get(i).getY())< enemigo.width/2) {
-				isAlive = false;
-				balas.remove(i);
-				return;
+
+	public void start() {
+		this.hilo.start();
+	}
+
+	public void run() {
+		while (isAlive) {
+			try {
+				update();
+				
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 		}
 	}
 
-	
-	public void run() {
-		while(isAlive) {
-			update();
-			collision();
-		try {
-			sleep(20);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		}
-	}
-	
 	public float getX() {
 		return pos.x;
 	}
-	
+
 	public float getY() {
 		return pos.y;
 	}
-	
+
 	public void setY(float y) {
-		pos.y = y;
+		this.pos.y = y;
 	}
 
 	public boolean isIsalive() {
 		return isAlive;
 	}
-	
+
+	public void setIsalive(boolean vivo) {
+		this.isAlive = vivo;
+	}
 
 }

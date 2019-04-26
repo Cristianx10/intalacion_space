@@ -11,10 +11,12 @@ public class Nave extends Personaje implements Runnable {
 	private int vel = 6;
 	public ArrayList<Bala> balas;
 	private PImage player;
+	private Thread hilo;
 	
 
 	public Nave(PVector pos, int r) {
 		super(pos);
+		this.hilo = new Thread(this);
 		isMovingLeft = false;
 		isMovingRight = false;
 		isAlive = true;
@@ -82,6 +84,10 @@ public class Nave extends Personaje implements Runnable {
 		}
 		
 	}
+	
+	public void start() {
+		this.hilo.start();
+	}
 
 	@Override
 	public void run() {
@@ -90,6 +96,7 @@ public class Nave extends Personaje implements Runnable {
 			for (int i = 0; i < balas.size(); i++) {
 				balas.get(i).update();
 			}
+			System.out.println("Ejeucto");
 			try {
 				Thread.sleep(20);
 			} catch (InterruptedException e) {

@@ -9,6 +9,7 @@ import pantalla.IPantallaC;
 import pantalla.Img;
 import pantalla.Pantalla;
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PVector;
 import space.Enemigo;
@@ -30,6 +31,7 @@ public class Logica extends Thread {
 		this.pantallas = new ArrayList();
 
 		this.pantallas.add(inicio);
+		this.pantallas.add(ruleta);
 		this.pantallas.add(juego);
 		
 		
@@ -40,23 +42,28 @@ public class Logica extends Thread {
 	}
 
 	public void draw() {
-
+			this.pantalla.draw();
 	}
 
 	public void mousePressed() {
-
+		this.pantalla.mousePressed();
 	}
 
 	public void mouseReleased() {
-
+		this.pantalla.mouseReleased();
 	}
 
 	public void keyPressed() {
+		this.pantalla.keyPressed();
+	
+	}
+	
+	public void mouseDragged() {
 		
 	}
 
 	public void keyReleased() {
-		
+		this.pantalla.keyReleased();
 	}
 
 	public ArrayList<Enemigo> getEnemigos() {
@@ -87,13 +94,158 @@ public class Logica extends Thread {
 		
 		@Override
 		public void mousePressed() {
+			pantalla.next();
+			
+		}
+		
+		@Override
+		public void draw() {
+			app.imageMode(PConstants.CORNER);
+			app.image(this.fondo, 0, 0);
+			
+		}
+	});
+	
+	CPantalla ruleta = new CPantalla("ruleta", new IPantalla() {
+		
+		private PImage pantalla, boton,clic;
+		private int x, y, contador, cuenta, cuentaT1, cuentaT2, contadorT1, contadorT2;
+		private PImage[] logos;
+		private String[] tiempo1, tiempo2;
+		private boolean ruletaActivada;
+		private int random1, random2, random3;
+		
+		@Override
+		public void setup() {
+			pantalla = app.loadImage("pantallas.png");
+			clic = app.loadImage("clic.png");
+			logos = new PImage[3];
+			tiempo1 = new String[4];
+			tiempo2 = new String[4];
+
+			ruletaActivada = false;
+
+			boton = app.loadImage("boton.png");
+			logos[0] = app.loadImage("corazon.png");
+			logos[1] = app.loadImage("pata.png");
+			logos[2] = app.loadImage("super.png");
+
+			tiempo1[0] = "0:40";
+			tiempo1[1] = "1:00";
+			tiempo1[2] = "1:20";
+			tiempo1[3] = "1:40";
+
+			tiempo2[0] = "0:25";
+			tiempo2[1] = "0:35";
+			tiempo2[2] = "0:45";
+			tiempo2[3] = "1:00";
+
+			random1 = (int) app.random(50, 150);
+			random2 = (int) app.random(50, 150);
+			random3 = (int) app.random(50, 150);
+			y = 290;
+			x = 1056;
+			contador = 0;
+			contadorT1 = 0;
+			contadorT2 = 0;
+			cuenta = 60;
+			cuentaT1 = 60;
+			cuentaT2 = 60;
+		}
+		
+		@Override
+		public void settings() {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseReleased() {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mousePressed() {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseMouseDraged() {
+			// al arrastrar el cuadrito se mueve
+			if (y > 280 && ruletaActivada == false && y < 540 && app.mouseX > x - boton.width / 2
+					&& app.mouseX < x + boton.width / 2 && app.mouseY > y - boton.height / 2
+					&& app.mouseY < y + boton.height / 2) {
+				y = app.mouseY;
+
+			}
+	
+		}
+		
+		@Override
+		public void keyReleased() {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void keyPressed() {
 			// TODO Auto-generated method stub
 			
 		}
 		
 		@Override
 		public void draw() {
-			// TODO Auto-generated method stub
+			app.imageMode(app.CORNER);
+			app.image(pantalla, 0, 0);
+			app.imageMode(app.CENTER);
+
+			app.image(boton, x, y);
+			if (y >= 535) {
+				ruletaActivada = true;
+			}
+			if (ruletaActivada == true) {
+				// matematica y bla bla
+				if(random1>0)random1--;
+				if(random2>0)random2--;
+				if(random3>0)random3--;
+				cuenta -= random1;
+				cuentaT1 -= random1;
+				cuentaT2 -= random2;
+				// sumarle a los contadores cuando la cuenta sea menor que 0
+				if (cuenta <= 0) {
+					contador++;
+					cuenta = 60;
+				}
+				if (cuentaT1 <= 0) {
+					contadorT1++;
+					cuentaT1 = 60;
+				}
+				if (cuentaT2 <= 0) {
+					contadorT2++;
+					cuentaT2 = 60;
+				}
+				// condiciones para que los contadores vuelvan a 0
+				if (contador > 2)
+					contador = 0;
+				if (contadorT1 > 3)
+					contadorT1 = 0;
+				if (contadorT2 > 3)
+					contadorT2 = 0;
+
+				// imagenes y textos manipulados por contador
+				app.image(logos[contador], 333, 420);
+				app.textAlign(app.CENTER);
+				app.textSize(80);
+				app.fill(0);
+				app.text(tiempo1[contadorT1], 600, 440);
+				app.text(tiempo2[contadorT2], 875, 440);
+
+				if (random1 == 0 && random2 == 0 && random3 == 0) {
+					app.image(clic, app.width/2, 650);
+				}
+			}
 			
 		}
 	});
@@ -109,12 +261,10 @@ public class Logica extends Thread {
 
 		@Override
 		public void setup() {
-
-			new Thread((Nave) personaje).start();
-		
-
+			
 			int r = (int) app.random(1, 4);
 			personaje = new Nave(new PVector(app.width / 2, app.height - 100), r);
+			this.personaje.start();
 			Enemigo.r = r;
 
 			switch (r) {
@@ -222,7 +372,7 @@ public class Logica extends Thread {
 		@Override
 		public void keyPressed() {
 			this.personaje.keyboardPressed();
-
+			
 		}
 
 	});

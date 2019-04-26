@@ -32,6 +32,7 @@ public class Bala extends Personaje {
 			if(sobre(e)) {
 				contacto = true;
 				e.setIsalive(false);
+				this.aciertos++;
 			}
 		}
 		

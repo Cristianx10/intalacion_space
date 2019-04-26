@@ -46,6 +46,12 @@ public class Main extends PApplet{
 	}
 	
 	@Override
+	public void mouseDragged() {
+		log.mouseDragged();
+	
+	}
+	
+	@Override
 	public void keyPressed() {
 		log.keyPressed();
 	}
